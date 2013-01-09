@@ -12,6 +12,7 @@
 		, _fields = conf.fields || []
 		, _paging = conf.paging || 10
 		, _grid_name = conf.name || ''
+		, _enable_sorting = (conf.sort === false ? false : true)
 		, _cur_page = 1
 		, _sort_field = ''
 		, _sort_type = 'asc'
@@ -151,12 +152,21 @@
 
 				// write header
 				new_html += '<tr>';
-				if (_fields && typeof(_fields) == 'array')
-					for (fi = 0; fi < _fields.length; fi++)
-						new_html += '<td><span class="head_field" name="'+_fields[fi]+'">' + _meaning_map[_fields[fi]] + '</span></td>';
-				else
-					for (key in _data[id])
-						new_html += '<td><span class="head_field" name='+key+'>' + _meaning_map[key] + '</span></td>';
+				if (_fields && typeof(_fields) == 'array') {
+					for (fi = 0; fi < _fields.length; fi++) {
+						new_html += '<td><span class="head_field" name="'+_fields[fi]+'">' + _meaning_map[_fields[fi]] + '</span>';
+						if (_enable_sorting)
+							new_html += '<br/>' + this._getSortHtml(_fields[fi]);
+						new_html += '</td>';
+					}
+				} else {
+					for (key in _data[id]) {
+						new_html += '<td><span class="head_field" name='+key+'>' + _meaning_map[key] + '</span>';
+						if (_enable_sorting)
+							new_html += '<br/>' + this._getSortHtml(key);
+						new_html += '</td>';
+					}
+				}
 				new_html += '</tr>';
 
 				// write body
@@ -176,8 +186,11 @@
 
 				var obj = this;
 				_holder.append(new_html);
+				_holder.find('a[type="asc_sort"]').click( _ascClick(obj));
+				_holder.find('a[type="desc_sort"]').click(_descClick(obj));
 				_holder.find('a[type="move_prev"]').click(_movePrevClick(obj));
 				_holder.find('a[type="move_next"]').click(_moveNextClick(obj));
+
 				return this;
 			},
 
