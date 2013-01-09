@@ -19,7 +19,7 @@ And that's all.
 ## Features
 * Paging
 * Plot(not push to github yet)
-* Sort on a field both ascending and desending(not push to github yet)
+* Sort on a field both ascending and desending
 
 ## Use easy-grid in your own projects
 Copy the easy\_grid.js file and easy\_grid.css file into your own directory.
