@@ -1,6 +1,9 @@
 # easy-grid
 This is a javascript lib that helps you to directly show a json array (of objects) as a table, supporting paging.
 
+## License
+New BSD License
+
 ## What you need
 * jQuery lib
 * using ajax or any other methods to get your data array ready.
