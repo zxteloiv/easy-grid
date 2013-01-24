@@ -8,16 +8,18 @@ New BSD License
 * jQuery lib
 * using ajax or any other methods to get your data array ready.
 
-## EASY to use:
+## Easy to use:
 You need only write down within 5 lines of codes.
 
-	<div id="table_holder" style="width:100%">
-	</div>
+	<div id="table_holder" style="width:100%"> </div>
 	<script>
 	var mygrid = easy_grid({"holder":jq('#table_holder')});
 	mygrid.cleanView().bindData(data).show(1);
+	</script>
 
 And that's all.
+Note that only the last line is useful to redraw the grid.
+It means you can recreate a new table each time you receive ajax data.
 
 ## Features
 * Paging
