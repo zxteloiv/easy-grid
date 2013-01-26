@@ -31,11 +31,14 @@ The data can be an object unserialized from a json string, or retrieved directly
 
 ## Features
 * Paging
-* Plot(not push to github yet)
+* Plot(use [ico](http://alexyoung.github.com/ico/) and [raphael](http://raphaeljs.com/))
 * Sort on a field both ascending and desending
 
 ## Use easy-grid in your own projects
 Copy the easy\_grid.js file and easy\_grid.css file into your own directory.
 Maybe you need to modify either of them to fulfill your purpose.
 For example, you can change \_meaning\_map to giving every field a proper name to fit your data.
+
+And because of the dependencies on ico & raphael, you may also copy raphael.js and ico.min.js to your project's directory.
+If you want any other representation of the chart, refer to ico documentation and change easy\_grid.js file.
 

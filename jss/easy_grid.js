@@ -15,6 +15,7 @@
 		, _fields = conf.fields || []		// indicating which fields in the data are need to render
 		, _paging = conf.paging || 10		// how many rows are permited in a page
 		, _grid_name = conf.name || ''		// id to the jquery name, not used yet
+		, _enable_ploting = (conf.plot === false ? false : true)	// whether to enable ploting buttons
 		, _enable_sorting = (conf.sort === false ? false : true)	// whether to enable sorting on fields
 		, _cur_page = 1						// the first page to show if multiple pages are presented
 		, _sort_field = ''					// to store on which field is sorting
@@ -209,7 +210,92 @@
 			},
 
 			showPlot: function(graph_obj) {
-				// TODO: add lines to plot data
+				if (_enable_ploting) {
+					_graph = graph_obj || _graph;
+					if (_graph) {
+						_holder.find('td .head_field').each(function(){
+							var el = jq(this);
+							var name = el.attr('name');
+							var check = jq('<input type="checkbox" name="' + name + '" />');
+							var label = jq('<span>plot</span>').css('font-size', '9px');
+							el.parent('td').append(check).append(label);
+
+							// if any field is checked, plot current all checked fields
+							// add the checked fields as series first
+							check.click(function(){
+								_graph.setSeries([]);
+								_holder.find('td input[type="checkbox"]:checked')
+									.each(function(){
+										_graph.appendSeries(jq(this).attr('name'));
+									});
+								// plot the checked fields
+								_graph.show();
+							});
+						});
+					}
+				}
+				return this;
+			}
+		};
+	};
+
+	scope.line_chart = function(conf) {
+		var _holder = conf.holder
+			, _width = conf.width || 320
+			, _height = conf.height || 240
+			, _data = conf.data
+			, _x_axis = conf.x || ''
+			, _series = conf.series || [];
+
+		// you may only need to modify or rewrite a show function for the returned object.
+		return {
+			getHolder: function() { return _holder; } ,
+			setWidth: function(w) { _width = w; _holder.css('width', w); return this; },
+			getWidth: function() { return _width; },
+			setHeight: function(h) { _height = h; _holder.css('height', h); return this; },
+			getHeight: function() { return _height },
+			setX: function(x) {
+				_x_axis = x;
+				_data.sort(function(a, b) {
+					return (a[x] < b[x]) ? -1 : ((a[x] > b[x]) ? 1 : 0);
+				});
+				return this;
+			},
+			getX: function() { return _x_axis; },
+			getSeries: function() { return _series; },
+			setSeries: function(s) { _series = s; return this; },
+			cleanSeries: function() { _series.length = 0; return this; },
+			appendSeries: function(s) { _series.push(s); return this; },
+			bindData: function(data, x) {
+				_data = data;
+				_x_axis = x || _x_axis;
+				if (!_x_axis)
+					return false;
+				// data must be sorted as the x_axis field
+				_data.sort(function(a, b) {
+					return (a[_x_axis] < b[_x_axis]) ? -1 : ((a[_x_axis] > b[_x_axis]) ? 1 : 0);
+				});
+			},
+			getData: function() { return _data; },
+			show: function() {
+				_holder.empty().css('width', _width).css('height', _height);
+
+				// build correct x, y object for graphic library
+				var y = {}, x = [];
+				for (var i = 0; i < _series.length; i++) {
+					y[_series[i]] = [];
+					for (var j = 0; j < data.length; j++) {
+						x[j] = data[j][_x_axis];
+						y[_series[i]][j] = Number(data[j][_series[i]]);
+					}
+				}
+
+				var graph = new Ico.LineGraph( document.getElementById(_holder.attr('id')), y, {
+					labels: x,
+					markers: 'circle',
+					grid: true,
+				});
+
 				return this;
 			}
 		};

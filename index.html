@@ -5,6 +5,8 @@
 	<title>Easy Grid Sample</title>
 	<link href="css/easy_grid.css" rel="stylesheet" type="text/css">
 	<script src="jss/jquery-1.8.2.min.js"></script>
+	<script src="jss/raphael.js"></script>
+	<script src="jss/ico.min.js"></script>
 	<script src="jss/easy_grid.js"></script>
 	<script>
 		var jq = $.noConflict();
@@ -18,35 +20,43 @@
 	<body>
 	<h3 align="center">Easy Grid Sample</h3>
 	<hr />
-	<div id="table_holder" style="width:100%" >
-	</div>
+	<div id="table_holder" style="width:100%" ></div>
+	<div id="graph_holder" style="width:240;height:320"></div>
 	<script>
 var mygrid = easy_grid({
-	"holder":jq('#table_holder'),
+	holder:jq('#table_holder'),
 	name:'mygrid'
 });
 
+// add corresponding graph to the grid
+var mygraph = line_chart({
+	"holder":jq('#graph_holder')
+});
+mygrid.bindGraph(mygraph);
+
 var data = [
-	{"place":"荔园", "so2cons":"10", "so2index":"4", "no2cons":"162", "no2index":"81", "mess":"184", "qua_lv":"二级", "qua_class":"良"},
-	{"place":"洪湖", "so2cons":"13", "so2index":"5", "no2cons":"188", "no2index":"94", "mess":"208", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"华侨城", "so2cons":"33", "so2index":"11", "no2cons":"157", "no2index":"79", "mess":"196", "qua_lv":"二级", "qua_class":"良"},
-	{"place":"南油", "so2cons":"44", "so2index":"15", "no2cons":"126", "no2index":"63", "mess":"209", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"盐田", "so2cons":"27", "so2index":"9", "no2cons":"123", "no2index":"62", "mess":"174", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"宝安", "so2cons":"35", "so2index":"12", "no2cons":"114", "no2index":"57", "mess":"214", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"沙井", "so2cons":"40", "so2index":"14", "no2cons":"56", "no2index":"28", "mess":"155", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"松岗", "so2cons":"54", "so2index":"18", "no2cons":"93", "no2index":"47", "mess":"191", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"福永", "so2cons":"45", "so2index":"15", "no2cons":"67", "no2index":"34", "mess":"156", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"观澜", "so2cons":"29", "so2index":"10", "no2cons":"74", "no2index":"37", "mess":"187", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"龙华", "so2cons":"44", "so2index":"15", "no2cons":"100", "no2index":"50", "mess":"203", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"光明", "so2cons":"22", "so2index":"8", "no2cons":"77", "no2index":"39", "mess":"253", "qua_lv":"四级", "qua_class":"中度污染"},
-	{"place":"横岗", "so2cons":"20", "so2index":"7", "no2cons":"125", "no2index":"63", "mess":"339", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"下陂", "so2cons":"23", "so2index":"8", "no2cons":"63", "no2index":"32", "mess":"故障", "qua_lv":"三级", "qua_class":"轻度污染"},
-	{"place":"坪山", "so2cons":"21", "so2index":"7", "no2cons":"96", "no2index":"48", "mess":"225", "qua_lv":"二级", "qua_class":"良"},
-	{"place":"葵涌", "so2cons":"5", "so2index":"2", "no2cons":"54", "no2index":"27", "mess":"91", "qua_lv":"二级", "qua_class":"良"},
-	{"place":"梅沙", "so2cons":"10", "so2index":"4", "no2cons":"70", "no2index":"35", "mess":"100", "qua_lv":"二级", "qua_class":"良"}
+	{"place":"荔园", "so2cons":10, "so2index":4, "no2cons":162, "no2index":81, "mess":184, "qua_lv":"二级", "qua_class":"良"},
+	{"place":"洪湖", "so2cons":13, "so2index":5, "no2cons":188, "no2index":94, "mess":208, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"华侨城", "so2cons":33, "so2index":11, "no2cons":157, "no2index":79, "mess":196, "qua_lv":"二级", "qua_class":"良"},
+	{"place":"南油", "so2cons":44, "so2index":15, "no2cons":126, "no2index":63, "mess":209, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"盐田", "so2cons":27, "so2index":9, "no2cons":123, "no2index":62, "mess":174, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"宝安", "so2cons":35, "so2index":12, "no2cons":114, "no2index":57, "mess":214, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"沙井", "so2cons":40, "so2index":14, "no2cons":56, "no2index":28, "mess":155, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"松岗", "so2cons":54, "so2index":18, "no2cons":93, "no2index":47, "mess":191, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"福永", "so2cons":45, "so2index":15, "no2cons":67, "no2index":34, "mess":156, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"观澜", "so2cons":29, "so2index":10, "no2cons":74, "no2index":37, "mess":187, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"龙华", "so2cons":44, "so2index":15, "no2cons":100, "no2index":50, "mess":203, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"光明", "so2cons":22, "so2index":8, "no2cons":77, "no2index":39, "mess":253, "qua_lv":"四级", "qua_class":"中度污染"},
+	{"place":"横岗", "so2cons":20, "so2index":7, "no2cons":125, "no2index":63, "mess":339, "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"下陂", "so2cons":23, "so2index":8, "no2cons":63, "no2index":32, "mess":"故障", "qua_lv":"三级", "qua_class":"轻度污染"},
+	{"place":"坪山", "so2cons":21, "so2index":7, "no2cons":96, "no2index":48, "mess":225, "qua_lv":"二级", "qua_class":"良"},
+	{"place":"葵涌", "so2cons":5, "so2index":2, "no2cons":54, "no2index":27, "mess":91, "qua_lv":"二级", "qua_class":"良"},
+	{"place":"梅沙", "so2cons":10, "so2index":4, "no2cons":70, "no2index":35, "mess":100, "qua_lv":"二级", "qua_class":"良"}
 ];
 
-mygrid.cleanView().bindData(data).show(1);
+mygraph.bindData(data.slice());
+mygraph.setX('place').setSeries(['so2cons']).setWidth(640); // use a clone of data array
+mygrid.cleanView().bindData(data).show(1).showPlot();
 
 	</script>
 	</body>
