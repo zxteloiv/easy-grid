@@ -24,14 +24,14 @@
 
 		// maps field name to its display name, modify this to fit your own data
 		var _meaning_map = {
-			'place':'¹Û²âµã',
-			'so2cons':'SO2Ò»Ğ¡Ê±Å¨¶È',
-			'so2index':'SO2Ò»Ğ¡Ê±·ÖÖ¸Êı',
-			'no2cons':'NO2Ò»Ğ¡Ê±·ÖÖ¸Êı',
-			'no2index':'NO2Ò»Ğ¡Ê±·ÖÖ¸Êı',
-			'mess':'¿ÅÁ£ÎïÅ¨¶È',
-			'qua_lv':'¿ÕÆøÖÊÁ¿¼¶±ğ',
-			'qua_class':'¿ÕÆøÖÊÁ¿Ö¸ÊıÀàĞÍ',
+			'place':'è§‚æµ‹ç‚¹',
+			'so2cons':'SO2ä¸€å°æ—¶æµ“åº¦',
+			'so2index':'SO2ä¸€å°æ—¶åˆ†æŒ‡æ•°',
+			'no2cons':'NO2ä¸€å°æ—¶åˆ†æŒ‡æ•°',
+			'no2index':'NO2ä¸€å°æ—¶åˆ†æŒ‡æ•°',
+			'mess':'é¢—ç²’ç‰©æµ“åº¦',
+			'qua_lv':'ç©ºæ°”è´¨é‡çº§åˆ«',
+			'qua_class':'ç©ºæ°”è´¨é‡æŒ‡æ•°ç±»å‹',
 		};
 
 		// get functions that can sort data on some field
